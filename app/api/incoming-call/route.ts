@@ -1,20 +1,22 @@
 import { NextResponse } from "next/server";
 import Twilio from "twilio";
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID; 
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-
 export async function POST() {
-  const client = Twilio(accountSid, authToken, {});
+  const client = Twilio(
+    "ACf3e1333cfb9fd46bbae472ab05967fc6",
+    "23613fa872622446bf948b09aecc9365"
+  );
+
   try {
-    client.calls.create({
+    const call = await client.calls.create({
       url: "https://handler.twilio.com/twiml/EH01a1d48e4ea9fdcad67416a404c5f25f",
-      to: "+17873787307",
-      from: "+16318142082",
-    })
-      .then(call => new NextResponse(JSON.stringify(call)))
-      .catch(err => new NextResponse(JSON.stringify(err)))
+      to: "+542235396722", // Número destino
+      from: "+16318142082", // Tu número de Twilio
+    });
+
+    return NextResponse.json({ success: true, call });
   } catch (err) {
-    return new NextResponse(JSON.stringify(err))
+    console.error("❌ Error al realizar la llamada:", err);
+    return NextResponse.json({ success: false, error: err }, { status: 500 });
   }
 }

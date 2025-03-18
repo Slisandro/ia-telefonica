@@ -1,29 +1,20 @@
 import { NextResponse } from "next/server";
 import Twilio from "twilio";
 
+const accountSid = process.env.NEXT_PUBLIC_ACCOUNT_SID; 
+const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
+
 export async function POST() {
-  const VoiceResponse = Twilio.twiml.VoiceResponse;
-  const response = new VoiceResponse();
-
-  response.say(
-    { voice: "alice", language: "es-ES" },
-    "Hola, bienvenido a nuestro servicio."
-  );
-
-  response.pause({ length: 2 });
-
-  response.say(
-    { voice: "alice", language: "es-ES" },
-    "¿En qué puedo ayudarte?"
-  );
-
-  response.record({ maxLength: 30, playBeep: true });
-
-  return new NextResponse(response.toString(), {
-    headers: { "Content-Type": "text/xml" },
-  });
-}
-
-export function GET() {
-  return new NextResponse("Hola");
+  const client = Twilio(accountSid, authToken, {});
+  try {
+    client.calls.create({
+      url: "https://handler.twilio.com/twiml/EH01a1d48e4ea9fdcad67416a404c5f25f",
+      to: "+17873787307",
+      from: "+16318142082",
+    })
+      .then(call => new NextResponse(JSON.stringify(call)))
+      .catch(err => new NextResponse(JSON.stringify(err)))
+  } catch (err) {
+    return new NextResponse(JSON.stringify(err))
+  }
 }

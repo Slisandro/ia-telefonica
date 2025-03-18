@@ -4,7 +4,7 @@ import Twilio from "twilio";
 export async function POST() {
   const client = Twilio(
     "ACf3e1333cfb9fd46bbae472ab05967fc6",
-    "23613fa872622446bf948b09aecc9365"
+    process.env.TWILIO_AUTH_TOKEN
   );
 
   try {

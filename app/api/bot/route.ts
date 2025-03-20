@@ -11,9 +11,9 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Faltan credenciales" }, { status: 400 });
         }
 
-        const formData = await req.formData();
-        const speechResult = formData.get("SpeechResult");
-        const userInput = typeof speechResult === "string" ? speechResult.toLowerCase() : "bienvenido";
+        // const formData = await req.formData();
+        // const speechResult = formData.get("SpeechResult");
+        // const userInput = typeof speechResult === "string" ? speechResult.toLowerCase() : "bienvenido";
         // const userInput = SpeechResult?.toLowerCase() || "";
 
         // 📌 Diccionario de respuestas rápidas
@@ -25,31 +25,31 @@ export async function POST(req: NextRequest) {
             "hablar con un representante": "Enseguida te transfiero con un agente. Un momento por favor."
         };
 
-        let respuesta;
+        let respuesta = respuestasRapidas.bienvenido;
         // let transferirLlamada = false;
 
         // 📌 Buscar palabras clave
-        for (const clave in respuestasRapidas) {
-            if (userInput.includes(clave)) {
-                respuesta = respuestasRapidas[clave as "ubicación" | "servicios" | "precios" | "hablar con un representante"];
-                if (clave === "hablar con un representante") {
-                    // transferirLlamada = true;
-                }
-                break;
-            }
-        }
+        // for (const clave in respuestasRapidas) {
+        //     if (userInput.includes(clave)) {
+        //         respuesta = respuestasRapidas[clave as "ubicación" | "servicios" | "precios" | "hablar con un representante"];
+        //         if (clave === "hablar con un representante") {
+        //             // transferirLlamada = true;
+        //         }
+        //         break;
+        //     }
+        // }
 
         // 📌 Si no hay respuesta predefinida, usar Groq
-        if (!respuesta) {
-            const groq = new Groq({ apiKey: GROQ_API_KEY });
+        // if (!respuesta) {
+        //     const groq = new Groq({ apiKey: GROQ_API_KEY });
 
-            const completion = await groq.chat.completions.create({
-                messages: [{ role: "user", content: userInput }],
-                model: "llama3-8b-8192",
-            });
+        //     const completion = await groq.chat.completions.create({
+        //         messages: [{ role: "user", content: userInput }],
+        //         model: "llama3-8b-8192",
+        //     });
 
-            respuesta = completion.choices[0].message.content;
-        }
+        //     respuesta = completion.choices[0].message.content;
+        // }
 
         // 📌 Generar TwiML con opción de transferencia de llamada
         let twiml = `<Response><Say voice="alice" language="es-ES">${respuesta}</Say>`;

@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
             "hablar con un representante": "Enseguida te transfiero con un agente. Un momento por favor."
         };
 
-        let respuesta = respuestasRapidas.bienvenido;
+        const respuesta = respuestasRapidas.bienvenido;
         // let transferirLlamada = false;
 
         // 📌 Buscar palabras clave

@@ -3,19 +3,20 @@ import Groq from "groq-sdk";
 
 export async function POST(req: NextRequest) {
     try {
-        const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER, GROQ_API_KEY } = process.env;
+        const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, GROQ_API_KEY } = process.env;
 
-        if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_PHONE_NUMBER || !GROQ_API_KEY) {
+        if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !GROQ_API_KEY) {
             return NextResponse.json({ error: "Faltan credenciales" }, { status: 400 });
         }
 
         const formData = await req.formData();
         const speechResult = formData.get("SpeechResult");
-        const userInput = typeof speechResult === "string" ? speechResult.toLowerCase() : "";
+        const userInput = typeof speechResult === "string" ? speechResult.toLowerCase() : "bienvenido";
         // const userInput = SpeechResult?.toLowerCase() || "";
 
         // 📌 Diccionario de respuestas rápidas
         const respuestasRapidas = {
+            "bienvenido": "Hola, gracias por comunicarte con Ebenezer. ¿En que puedo ayudarte?",
             "ubicación": "Nuestra tienda está en la Avenida Principal 123, Ciudad Ejemplo.",
             "servicios": "Ofrecemos soporte técnico, instalación de software y venta de equipos.",
             "precios": "Nuestros precios varían según el servicio. ¿Qué necesitas saber exactamente?",

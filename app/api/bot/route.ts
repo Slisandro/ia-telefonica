@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
 
 export async function POST(req: NextRequest) {
+    console.log("HERE")
+    console.log({ req })
     try {
         const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, GROQ_API_KEY } = process.env;
 

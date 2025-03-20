@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function Home() {
   const [disabled, setDisabled] = useState(false);
   const handleCall = async () => {
-    setDisabled(true);
+    // setDisabled(true);
     try {
       const response = await fetch("/api/incoming-call", {
         method: "POST",

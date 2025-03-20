@@ -9,9 +9,9 @@ export async function POST() {
 
   try {
     const call = await client.calls.create({
-      url: "https://handler.twilio.com/twiml/EH01a1d48e4ea9fdcad67416a404c5f25f",
-      to: "+17873787307", // Número destino
-      from: "+16318142082", // Tu número de Twilio
+      url: "https://ia-telefonica.vercel.app/api/bot",
+      to: "+542235396722", // Número destino
+      from: "+16316346958", // Tu número de Twilio
     });
 
     return NextResponse.json({ success: true, call });
